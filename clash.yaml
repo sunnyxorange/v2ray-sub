@@ -1,0 +1,33 @@
+mixed-port: 7890
+allow-lan: false
+mode: rule
+log-level: info
+ipv6: false
+unified-delay: true
+tcp-concurrent: true
+
+proxies:
+  - name: "v2ray-tunnel"
+    type: vless
+    server: v2ray.aizgl.com
+    port: 443
+    uuid: 4b21fbc7-00c2-4665-9788-02153832f9e5
+    network: ws
+    udp: true
+    tls: true
+    servername: v2ray.aizgl.com
+    ws-opts:
+      path: "/xray-ws"
+      headers:
+        Host: v2ray.aizgl.com
+
+proxy-groups:
+  - name: "PROXY"
+    type: select
+    proxies:
+      - v2ray-tunnel
+      - DIRECT
+
+rules:
+  - GEOIP,CN,DIRECT
+  - MATCH,PROXY
